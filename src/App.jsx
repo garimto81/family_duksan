@@ -3,6 +3,7 @@ import { Calendar, MapPin, CheckCircle, Clock, CheckSquare, Sun, Coffee, Utensil
 
 const DeoksanTripOnePage = () => {
   const [checkedItems, setCheckedItems] = useState({});
+  const [selectedDay, setSelectedDay] = useState(1);
   // 기본 지도는 '덕산온천지구' 중심
   const [mapLocation, setMapLocation] = useState({
     name: "스플라스 리솜 (덕산온천)",
@@ -170,88 +171,45 @@ const DeoksanTripOnePage = () => {
 
       <div className="p-4 md:p-8 space-y-8">
 
-        {/* NEW: Visual Route Map Section (Graphic) */}
+        {/* 실제 구글 지도 경로 이미지 섹션 */}
         <section className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-5 border-b border-gray-100 flex items-center justify-between">
             <h2 className="font-bold text-lg text-gray-800 flex items-center">
               <MapIcon className="w-5 h-5 mr-2 text-indigo-600" />
               여행 동선 시각화
             </h2>
-            <div className="flex space-x-2 text-xs font-semibold">
-              <span className="flex items-center"><span className="w-3 h-3 rounded-full bg-red-400 mr-1"></span>1일차</span>
-              <span className="flex items-center"><span className="w-3 h-3 rounded-full bg-blue-400 mr-1"></span>2일차</span>
-              <span className="flex items-center"><span className="w-3 h-3 rounded-full bg-green-400 mr-1"></span>3일차</span>
+            <div className="flex space-x-1">
+              {[1, 2, 3].map((day) => (
+                <button
+                  key={day}
+                  onClick={() => setSelectedDay(day)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                    selectedDay === day
+                      ? day === 1 ? 'bg-red-500 text-white'
+                        : day === 2 ? 'bg-blue-500 text-white'
+                        : 'bg-green-500 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {day}일차
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="relative w-full h-[400px] bg-[#F3F4F6] overflow-hidden">
-             {/* Schematic Map SVG */}
-             <svg className="w-full h-full" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid meet">
-                {/* Background Decor */}
-                <path d="M-50,350 Q300,450 650,300" stroke="#E5E7EB" strokeWidth="40" fill="none" />
-
-                {/* Define Locations (Relative Coordinates)
-                    Yonghyeon (North): 300, 50
-                    Deoksan/Charcoal (Mid-Left): 200, 200
-                    Sudeoksa (Bottom-Left): 120, 300
-                    Yedangho (Bottom-Right): 480, 320
-                */}
-
-                {/* --- Routes (Dashed Lines) --- */}
-
-                {/* Day 1: Charcoal -> Yonghyeon */}
-                <path d="M220,200 Q250,150 300,70" stroke="#EF4444" strokeWidth="3" strokeDasharray="6,4" fill="none" className="animate-pulse-slow">
-                  <animate attributeName="stroke-dashoffset" from="20" to="0" dur="2s" repeatCount="indefinite" />
-                </path>
-                <rect x="230" y="110" width="60" height="20" rx="4" fill="white" stroke="#EF4444" strokeWidth="1" />
-                <text x="260" y="123" textAnchor="middle" fontSize="10" fill="#EF4444" fontWeight="bold">12km / 20분</text>
-
-                {/* Day 2: Yonghyeon -> Resom (Similar path to Charcoal but visualizing movement) */}
-                <path d="M300,70 Q320,150 220,200" stroke="#3B82F6" strokeWidth="3" strokeDasharray="6,4" fill="none" opacity="0.6" />
-                <rect x="290" y="150" width="60" height="20" rx="4" fill="white" stroke="#3B82F6" strokeWidth="1" />
-                <text x="320" y="163" textAnchor="middle" fontSize="10" fill="#3B82F6" fontWeight="bold">15km / 25분</text>
-
-                {/* Day 3: Yonghyeon -> Sudeoksa -> Yedangho */}
-                {/* 3-1: Yonghyeon -> Sudeoksa */}
-                <path d="M300,70 Q150,120 120,300" stroke="#10B981" strokeWidth="3" strokeDasharray="6,4" fill="none" />
-
-                {/* 3-2: Sudeoksa -> Yedangho */}
-                <path d="M120,300 Q300,350 480,320" stroke="#10B981" strokeWidth="3" strokeDasharray="6,4" fill="none" />
-                <rect x="280" y="320" width="60" height="20" rx="4" fill="white" stroke="#10B981" strokeWidth="1" />
-                <text x="310" y="333" textAnchor="middle" fontSize="10" fill="#10B981" fontWeight="bold">25분</text>
-
-
-                {/* --- Location Markers --- */}
-
-                {/* Yonghyeon Forest (Top Center) */}
-                <g transform="translate(300, 70)">
-                   <circle r="8" fill="#059669" stroke="white" strokeWidth="2" />
-                   <text x="0" y="-15" textAnchor="middle" fontSize="14" fontWeight="bold" fill="#065F46">용현자연휴양림</text>
-                   <text x="0" y="20" textAnchor="middle" fontSize="10" fill="#4B5563">숙소</text>
-                </g>
-
-                {/* Deoksan Area (Resom & Charcoal) (Mid Left) */}
-                <g transform="translate(220, 200)">
-                   <circle r="8" fill="#2563EB" stroke="white" strokeWidth="2" />
-                   <text x="-15" y="5" textAnchor="end" fontSize="14" fontWeight="bold" fill="#1E40AF">덕산온천/참숯랜드</text>
-                   <text x="-15" y="20" textAnchor="end" fontSize="10" fill="#4B5563">워터파크/식사</text>
-                </g>
-
-                {/* Sudeoksa (Bottom Left) */}
-                <g transform="translate(120, 300)">
-                   <circle r="6" fill="#7C3AED" stroke="white" strokeWidth="2" />
-                   <text x="0" y="20" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#5B21B6">수덕사</text>
-                </g>
-
-                {/* Yedangho (Bottom Right) */}
-                <g transform="translate(480, 320)">
-                   <circle r="6" fill="#F59E0B" stroke="white" strokeWidth="2" />
-                   <text x="0" y="20" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#92400E">예당호 출렁다리</text>
-                </g>
-             </svg>
-             <div className="absolute top-4 left-4 bg-white/80 p-2 rounded text-xs text-gray-500">
-               * 실제 지형을 단순화한 시각화 지도입니다.
-             </div>
+          <div className="relative w-full bg-gray-100">
+            <img
+              src={`/images/route-day${selectedDay}.png`}
+              alt={`${selectedDay}일차 경로`}
+              className="w-full h-auto object-contain"
+            />
+            <div className="absolute bottom-4 left-4 bg-white/90 px-3 py-2 rounded-lg shadow-sm">
+              <p className="text-xs font-bold text-gray-700">
+                {selectedDay === 1 && '덕산참숯랜드 → 용현자연휴양림'}
+                {selectedDay === 2 && '스플라스 리솜 → 용현자연휴양림'}
+                {selectedDay === 3 && '용현휴양림 → 수덕사 → 예당호 출렁다리'}
+              </p>
+            </div>
           </div>
         </section>
 
