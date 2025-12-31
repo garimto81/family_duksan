@@ -44,7 +44,7 @@ const DeoksanTripOnePage = () => {
 
   const schedule = {
     day1: {
-      date: '1월 2일 (금)',
+      date: '1월 1일 (수)',
       theme: '참숯 힐링과 숲속의 밤',
       // route: 전체 경로 정보
       route: {
@@ -74,11 +74,11 @@ const DeoksanTripOnePage = () => {
       ]
     },
     day2: {
-      date: '1월 3일 (토)',
+      date: '1월 2일 (목)',
       theme: '짜릿한 워터파크와 온천',
       route: {
-        origin: "용현자연휴양림",
-        destination: "스플라스 리솜",
+        origin: "스플라스 리솜",
+        destination: "용현자연휴양림",
         waypoints: [],
         time: "약 25분",
         dist: "15km",
@@ -90,16 +90,22 @@ const DeoksanTripOnePage = () => {
           type: 'move',
           time: '약 25분 (15km)',
           desc: '덕산 온천 지구로 이동',
-          isMainRoute: true
+          isMainRoute: false
         },
         { time: '10:30', title: '스플라스 리솜', desc: '오픈런! 온천수 워터파크', type: 'activity', highlight: true, spotId: 'resom' },
         { time: '15:00', title: '늦은 점심', desc: '리솜 내부 또는 인근', type: 'meal' },
-        { time: '17:00', title: '숙소 체크인', desc: '연박 or 예비숙소 (대기 1순위)', type: 'checkin', status: 'waiting' },
-        { time: '18:30', title: '저녁: 예산 소갈비', desc: '고덕갈비 등 인근 맛집', type: 'meal', spotId: 'galbi' }
+        {
+          type: 'move',
+          time: '약 25분 (15km)',
+          desc: '용현자연휴양림으로 이동',
+          isMainRoute: true
+        },
+        { time: '18:00', title: '용현자연휴양림', desc: '체크인 (대기 1순위)', type: 'checkin', status: 'waiting', spotId: 'forest' },
+        { time: '19:00', title: '저녁: 예산 소갈비', desc: '고덕갈비 등 인근 맛집', type: 'meal', spotId: 'galbi' }
       ]
     },
     day3: {
-      date: '1월 4일 (일)',
+      date: '1월 3일 (금)',
       theme: '예산 명소 탐방',
       route: {
         origin: "용현자연휴양림",
@@ -147,7 +153,7 @@ const DeoksanTripOnePage = () => {
           <div>
             <div className="flex items-center space-x-2 text-teal-100 mb-2 text-sm font-medium">
               <span className="bg-white/20 px-2 py-1 rounded">2박 3일</span>
-              <span>2026.01.02 - 01.04</span>
+              <span>2025.01.01 - 01.03</span>
             </div>
             <h1 className="text-4xl font-extrabold mb-2 tracking-tight">덕산 힐링 여행 계획</h1>
             <p className="flex items-center text-teal-50 opacity-90">
@@ -448,12 +454,12 @@ const DeoksanTripOnePage = () => {
                   <div className="pt-2">
                      <div className="flex items-center text-sm mb-2">
                         <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
-                        <span className="text-gray-600 flex-1">1/2 (금)</span>
+                        <span className="text-gray-600 flex-1">1/1 (수)</span>
                         <span className="text-green-600 font-bold text-xs">결제완료</span>
                      </div>
                      <div className="flex items-center text-sm">
                         <div className="w-2 h-2 rounded-full bg-orange-500 mr-2"></div>
-                        <span className="text-gray-600 flex-1">1/3 (토)</span>
+                        <span className="text-gray-600 flex-1">1/2 (목)</span>
                         <span className="text-orange-500 font-bold text-xs">대기중</span>
                      </div>
                   </div>
